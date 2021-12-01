@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css';
 
+const button = document.querySelector('button');
+
 class Todo {
     constructor(description,completed,index) {
     this.description = description;
@@ -15,17 +17,24 @@ const toDos = [
 ];
 
 function displayTodos() {
-    const ul = document.getElementById('toDoList');
-    ul.classList.add('list');
+    toDos.sort((a, b) => (a.index > b.index ? 1 : -1));
     toDos.forEach((element) => {
-        const li = document.createElement('li')
-        li.classList.add('list-item');
-        li.innerHTML = ` 
-        ${element.description}
-        `
-        ul.appendChild(li)
+      const li = document.createElement('li');
+      li.innerHTML = `
+      <div class="flex">
+        <div>
+            <input type="checkbox">
+            <span>${element.description}</span>
+        </div>
+        <span class="material-icons">
+            more_vert
+        </span>
+      </div>
+      <hr>`;
+  
+      button.parentElement.insertBefore(li, button);
     });
-}
+  }
 
 window.addEventListener('DOMContentLoaded', () => {
     displayTodos();
