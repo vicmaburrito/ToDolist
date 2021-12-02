@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import update from './update';
 
 const button = document.querySelector('button');
@@ -43,6 +43,12 @@ function saveTodosLocally() {
 
 function addEventsToCheckboxes() {
   const checkboxes = document.querySelectorAll('.checkbox');
+  checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener('change', () => {
+      update(toDos[index]);
+      saveTodosLocally();
+    });
+  });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
