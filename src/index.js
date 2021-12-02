@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
+import update from './update';
 
 const button = document.querySelector('button');
 
@@ -11,7 +12,7 @@ class Todo {
   }
 }
 
-const toDos = [
+let toDos = [
   new Todo('Wash the dishes', true, 0),
   new Todo('Complete To Do list project', false, 1),
 ];
@@ -36,6 +37,19 @@ function displayTodos() {
   });
 }
 
+function saveTodosLocally() {
+  localStorage.setItem('toDos', JSON.stringify(toDos));
+}
+
+function addEventsToCheckboxes() {
+  const checkboxes = document.querySelectorAll('.checkbox');
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  const oldTodos = JSON.parse(localStorage.getItem('toDos'));
+  if (oldTodos) {
+    toDos = oldTodos;
+  }
   displayTodos();
+  addEventsToCheckboxes();
 });
