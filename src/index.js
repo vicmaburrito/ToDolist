@@ -1,5 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import update from './update';
 
 const button = document.querySelector('button');
 
@@ -11,7 +12,7 @@ class Todo {
   }
 }
 
-const toDos = [
+let toDos = [
   new Todo('Wash the dishes', true, 0),
   new Todo('Complete To Do list project', false, 1),
 ];
@@ -23,8 +24,9 @@ function displayTodos() {
     li.innerHTML = `
       <div class="flex">
         <div>
-            <input type="checkbox">
-            <span>${element.description}</span>
+        <input type="checkbox" class="checkbox"
+        ${element.completed ? 'checked' : ''}>
+          <span>${element.description}</span>
         </div>
         <span class="material-icons">
             more_vert
@@ -36,6 +38,25 @@ function displayTodos() {
   });
 }
 
+function saveTodosLocally() {
+  localStorage.setItem('toDos', JSON.stringify(toDos));
+}
+
+function addEventsToCheckboxes() {
+  const checkboxes = document.querySelectorAll('.checkbox');
+  checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener('change', () => {
+      update(toDos[index]);
+      saveTodosLocally();
+    });
+  });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  const oldTodos = JSON.parse(localStorage.getItem('toDos'));
+  if (oldTodos) {
+    toDos = oldTodos;
+  }
   displayTodos();
+  addEventsToCheckboxes();
 });

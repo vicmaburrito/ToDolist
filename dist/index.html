@@ -12,14 +12,26 @@
 
 <script defer src="bundle.js"></script></head>
 <body>
-    <div class="d-flex justify-content-center">
-        <h1>Hello World</h1>
-    </div>
-
-    <div class="c-list d-flex justify-content-center">
-    <ul id="toDoList">
+<section>
+    <ul id="complete-list">
+        <li class="top-list-item">
+            <div class="flex items">
+                <span>Today's Todo</span>
+                <span class="material-icons"> sync </span>
+            </div>
+            <hr>
+        </li>
+        <li class="top-list-item">
+            <div class="flex items">
+                <input placeholder="Add something To Do" type="text">
+                <span class="material-icons">
+                    keyboard_return
+                </span>
+            </div>
+            <hr>
+        </li>
+        <li><button type="button">Clear All Done's</button></li>
     </ul>
-</div>
-
+</section>
 </body>
 </html>
