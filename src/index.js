@@ -24,8 +24,9 @@ function displayTodos() {
     li.innerHTML = `
       <div class="flex">
         <div>
-            <input type="checkbox">
-            <span>${element.description}</span>
+        <input type="checkbox" class="checkbox"
+        ${element.completed ? 'checked' : ''}>
+          <span>${element.description}</span>
         </div>
         <span class="material-icons">
             more_vert
