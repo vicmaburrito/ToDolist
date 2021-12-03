@@ -13,8 +13,8 @@ class Todo {
 }
 
 let toDos = [
-  new Todo('Wash the dishes', true, 0),
-  new Todo('Complete To Do list project', false, 1),
+  new Todo(),
+  new Todo(),
 ];
 
 function displayTodos() {
