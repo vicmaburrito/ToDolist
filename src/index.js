@@ -1,6 +1,7 @@
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import update from './update';
+import { createTodo, updateTodo } from './todos_controller';
 
 const button = document.querySelector('button');
 
