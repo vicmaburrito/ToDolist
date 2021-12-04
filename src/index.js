@@ -79,13 +79,30 @@ function ReplaceTodoItemForCompletedTask(todo) {
   return edit;
 }
 
-function addEventsToCheckboxes() {
+function changeElementToCompleted(index) {
+  update(toDos[index]);
+  saveTodosLocally();
+  if (toDos[index].completed) {
+    const completedElement = ReplaceTodoItemForCompletedTask(toDos[index]);
+    const todoElements = document.querySelectorAll('.todo-element');
+    todoElements[index].innerHTML = completedElement;
+  }
+}
+
+function addEventsToCheckboxes(recievedIndex) {
   const checkboxes = document.querySelectorAll('.checkbox');
   checkboxes.forEach((checkbox, index) => {
-    checkbox.addEventListener('change', () => {
-      update(toDos[index]);
-      saveTodosLocally();
-    });
+    if (recievedIndex) {
+      if (recievedIndex === index) {
+        checkbox.addEventListener('change', () => {
+          changeElementToCompleted(index);
+        });
+      }
+    } else {
+      checkbox.addEventListener('change', () => {
+        changeElementToCompleted(index);
+      });
+    }
   });
 }
 
