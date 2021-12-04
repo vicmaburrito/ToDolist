@@ -13,29 +13,34 @@ class Todo {
   }
 }
 
-let toDos = [
-  new Todo(),
-  new Todo(),
-];
+let toDos = [];
 
-function displayTodos() {
-  toDos.sort((a, b) => (a.index > b.index ? 1 : -1));
-  toDos.forEach((element) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <div class="flex">
-        <div>
-        <input type="checkbox" class="checkbox"
-        ${element.completed ? 'checked' : ''}>
-          <span>${element.description}</span>
-        </div>
-        <span class="material-icons">
-            more_vert
-        </span>
+function createTodoItem(todo) {
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <div class="flex">
+      <div>
+          <input type="checkbox" class="checkbox"
+          ${todo.completed ? 'checked' : ''}>
+          <span>${todo.description}</span>
       </div>
-      <hr>`;
+      <span class="material-icons edit-icon" style="cursor: pointer">
+          more_vert
+      </span>
+    </div>
+    <hr>`;
+  return li;
+}
 
-    button.parentElement.insertBefore(li, button);
+function addTodoItem(todo) {
+  const li = createTodoItem(todo);
+  button.parentElement.insertBefore(li, button);
+}
+
+function todoItem() {
+  toDos.sort((a, b) => (a.index > b.index ? 1 : -1));
+  toDos.forEach((todo) => {
+    addTodoItem(todo);
   });
 }
 
