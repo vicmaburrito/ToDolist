@@ -16,7 +16,7 @@
 
 ## Live Demo
 
-[Live Demo Link](##)
+[Live Demo Link](https://vicmaburrito.github.io/ToDolist/dist/)
 
 
 ## Authors
