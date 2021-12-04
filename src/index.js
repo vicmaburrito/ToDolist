@@ -59,7 +59,7 @@ function todoItem() {
 }
 
 function saveTodosLocally() {
-  localStorage.setItem('toDos', JSON.stringify(toDos));
+  localStorage.setItem('todos', JSON.stringify(toDos));
 }
 
 function ReplaceTodoItemForCompletedTask(todo) {
