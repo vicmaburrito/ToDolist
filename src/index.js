@@ -1,7 +1,7 @@
 import './style.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import update from './update';
-import { createTodo, updateTodo } from './todos_controller';
+import { createTodo, destroyTodo, updateTodo } from './todos_controller';
 
 const button = document.querySelector('button');
 
@@ -18,7 +18,7 @@ let toDos = [];
 function createTodoItem(todo) {
   const li = document.createElement('li');
   li.innerHTML = `
-    <div class="flex">
+    <div class="flex todo-element">
       <div>
           <input type="checkbox" class="checkbox"
           ${todo.completed ? 'checked' : ''}>
@@ -30,9 +30,10 @@ function createTodoItem(todo) {
     </div>
     <hr>`;
   return li;
+}
 
-  function ReplaceTodoItem(todo) {
-    const edit = `
+function ReplaceTodoItem(todo) {
+  const edit = `
     <div>
       <input type="checkbox" class="checkbox" 
       ${todo.completed ? 'checked' : ''}>
@@ -42,8 +43,7 @@ function createTodoItem(todo) {
         more_vert
     </span>
       `;
-    return edit;
-  }
+  return edit;
 }
 
 function addTodoItem(todo) {
@@ -106,11 +106,101 @@ function addEventsToCheckboxes(recievedIndex) {
   });
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const oldTodos = JSON.parse(localStorage.getItem('toDos'));
+function addEventsToEditIcons() {
+  const editIcons = document.querySelectorAll('.edit-icon');
+  const todoElements = document.querySelectorAll('.todo-element');
+
+  toDos.forEach((todo, index) => {
+    editIcons[index].addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.classList.add('flex', 'todo-element');
+      div.style.backgroundColor = '#FFFBAE';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.classList.add('checkbox');
+      checkbox.checked = todo.completed;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.classList.add('edit-input');
+      input.value = todo.description;
+      input.style.backgroundColor = 'transparent';
+
+      const span = document.createElement('span');
+      span.classList.add('material-icons', 'edit-icon');
+      span.style.marginLeft = 'auto';
+      span.style.cursor = 'pointer';
+      span.innerHTML = 'delete';
+
+      div.appendChild(checkbox);
+      div.appendChild(input);
+      div.appendChild(span);
+
+      todoElements[index].replaceWith(div);
+
+      input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          const todo = toDos[index];
+          todo.description = input.value;
+          updateTodo(todo, toDos[index]);
+          const edit = ReplaceTodoItem(todo);
+          div.innerHTML = edit;
+          addEventsToEditIcons();
+          saveTodosLocally();
+          div.style.backgroundColor = 'white';
+        }
+      });
+
+      span.addEventListener('click', () => {
+        saveTodosLocally();
+        destroyTodo(todo, toDos);
+        div.parentElement.remove();
+        saveTodosLocally();
+      });
+    });
+  });
+}
+window.addEventListener('load', () => {
+  const oldTodos = JSON.parse(localStorage.getItem('todos'));
   if (oldTodos) {
     toDos = oldTodos;
   }
-  createTodoItem();
+  todoItem();
   addEventsToCheckboxes();
+  addEventsToEditIcons();
+});
+
+function addEventListenerToInput() {
+  const input = document.querySelector('#input-add');
+  input.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      const todo = new Todo(input.value, false, toDos.length + 1);
+      createTodo(todo, toDos);
+      addTodoItem(todo);
+      saveTodosLocally();
+      input.value = '';
+      addEventsToEditIcons(toDos.length);
+      addEventsToCheckboxes(toDos.length - 1);
+    }
+  });
+}
+
+addEventListenerToInput();
+
+button.addEventListener('click', () => {
+  const todoElements = document.querySelectorAll('.todo-element');
+  const removedTodos = [];
+  for (let i = 0; i < toDos.length; i += 1) {
+    if (toDos[i].completed === true) {
+      removedTodos.push(toDos[i]);
+      todoElements[i].parentNode.remove();
+    }
+  }
+
+  removedTodos.forEach((todo) => {
+    destroyTodo(todo, toDos);
+  });
+
+  saveTodosLocally();
 });
