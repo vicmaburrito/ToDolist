@@ -63,6 +63,6 @@ window.addEventListener('DOMContentLoaded', () => {
   if (oldTodos) {
     toDos = oldTodos;
   }
-  displayTodos();
+  createTodoItem();
   addEventsToCheckboxes();
 });

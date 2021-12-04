@@ -1,7 +1,10 @@
-function createTodo() {
+function createTodo(todoItem, todoList) {
+  todoList.push(todoItem);
 }
 
-function updateTodo() {
+function updateTodo(newTodo, oldTodo) {
+  oldTodo = newTodo;
+  return oldTodo;
 }
 
-export { createTodo, updateTodo };
+export { createTodo, destroyTodo, updateTodo }
