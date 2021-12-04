@@ -71,8 +71,8 @@ function ReplaceTodoItemForCompletedTask(todo) {
   </span>
     <strike><span>${todo.description}</span></strike>
   </div>
-  <span class="material-icons edit-icon" style=" cursor: pointer">
-      more_vert
+  <span>
+  You complete the task!<br>clear done's to remove me!
   </span>
     `;
 
