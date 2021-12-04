@@ -30,6 +30,20 @@ function createTodoItem(todo) {
     </div>
     <hr>`;
   return li;
+
+  function ReplaceTodoItem(todo) {
+    const edit = `
+    <div>
+      <input type="checkbox" class="checkbox" 
+      ${todo.completed ? 'checked' : ''}>
+      <span>${todo.description}</span>
+    </div>
+    <span class="material-icons edit-icon" style=" cursor: pointer">
+        more_vert
+    </span>
+      `;
+    return edit;
+  }
 }
 
 function addTodoItem(todo) {
@@ -46,6 +60,23 @@ function todoItem() {
 
 function saveTodosLocally() {
   localStorage.setItem('toDos', JSON.stringify(toDos));
+}
+
+function ReplaceTodoItemForCompletedTask(todo) {
+  const edit = `
+  
+  <div>
+  <span class="material-icons edit-icon" style=" cursor: pointer; color: green">
+      done
+  </span>
+    <strike><span>${todo.description}</span></strike>
+  </div>
+  <span class="material-icons edit-icon" style=" cursor: pointer">
+      more_vert
+  </span>
+    `;
+
+  return edit;
 }
 
 function addEventsToCheckboxes() {
